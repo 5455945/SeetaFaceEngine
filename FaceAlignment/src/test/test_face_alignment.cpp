@@ -51,7 +51,7 @@ std::string MODEL_DIR = "./model/";
 int main(int argc, char** argv)
 {
   // Initialize face detection model
-  seeta::FaceDetection detector("../../../FaceDetection/model/seeta_fd_frontal_v1.0.bin");
+  seeta::FaceDetection detector((MODEL_DIR + "seeta_fd_frontal_v1.0.bin").c_str());
   detector.SetMinFaceSize(40);
   detector.SetScoreThresh(2.f);
   detector.SetImagePyramidScaleFactor(0.8f);
@@ -110,7 +110,7 @@ int main(int argc, char** argv)
   {
     cvCircle(img_color, cvPoint(points[i].x, points[i].y), 2, CV_RGB(0, 255, 0), CV_FILLED);
   }
-  cvSaveImage("result.jpg", img_color);
+  cvSaveImage("test_face_detection.jpg", img_color);
 
   // Release memory
   cvReleaseImage(&img_color);

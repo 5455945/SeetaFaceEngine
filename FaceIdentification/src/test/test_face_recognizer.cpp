@@ -62,9 +62,9 @@ using namespace std;
 #endif //__unix
 
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
-
+//#include <opencv/cv.h>
+//#include <opencv/highgui.h>
+#include <opencv2/opencv.hpp>
 #include "face_identification.h"
 #include "common.h"
 
@@ -85,7 +85,7 @@ using namespace seeta;
 #define TEST(major, minor) major##_##minor##_Tester()
 #define EXPECT_NE(a, b) if ((a) == (b)) std::cout << "ERROR: "
 #define EXPECT_EQ(a, b) if ((a) != (b)) std::cout << "ERROR: "
-
+using namespace cv;
 #ifdef _WIN32
 std::string DATA_DIR = "../../data/";
 std::string MODEL_DIR = "../../model/";
@@ -118,7 +118,7 @@ void TEST(FaceRecognizerTest, CropFace) {
     for (int i = 0; i < 5; ++ i) {
       ifs >> pt5[i].x >> pt5[i].y;
     }
-
+	//std::cin >> str;
     // Create a image to store crop face.
     cv::Mat dst_img(face_recognizer.crop_height(),
       face_recognizer.crop_width(),

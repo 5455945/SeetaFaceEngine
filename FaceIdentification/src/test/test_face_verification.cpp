@@ -48,6 +48,7 @@ using namespace std;
 #pragma comment( lib, cvLIB("core") )
 #pragma comment( lib, cvLIB("imgproc") )
 #pragma comment( lib, cvLIB("highgui") )
+#pragma comment( lib, cvLIB("imgcodecs") )
 
 #endif //_WIN32
 
@@ -61,8 +62,9 @@ using namespace std;
 
 #endif //__unix
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+//#include <opencv/cv.h>
+//#include <opencv/highgui.h>
+#include <opencv2/opencv.hpp>
 #include "face_identification.h"
 #include "recognizer.h"
 #include "face_detection.h"
@@ -91,15 +93,16 @@ std::string MODEL_DIR = "./model/";
 
 
 int main(int argc, char* argv[]) {
+
   // Initialize face detection model
-  seeta::FaceDetection detector("seeta_fd_frontal_v1.0.bin");
+  seeta::FaceDetection detector((MODEL_DIR + "seeta_fd_frontal_v1.0.bin").c_str());
   detector.SetMinFaceSize(40);
   detector.SetScoreThresh(2.f);
   detector.SetImagePyramidScaleFactor(0.8f);
   detector.SetWindowStep(4, 4);
 
   // Initialize face alignment model 
-  seeta::FaceAlignment point_detector("seeta_fa_v1.1.bin");
+  seeta::FaceAlignment point_detector((MODEL_DIR + "seeta_fa_v1.1.bin").c_str());
 
   // Initialize face Identification model 
   FaceIdentification face_recognizer((MODEL_DIR + "seeta_fr_v1.0.bin").c_str());
@@ -140,10 +143,10 @@ int main(int argc, char* argv[]) {
   }
 
   // Detect 5 facial landmarks
-  seeta::FacialLandmark gallery_points[5];
+  seeta::FacialLandmark gallery_points[5] = { 0 };
   point_detector.PointDetectLandmarks(gallery_img_data_gray, gallery_faces[0], gallery_points);
 
-  seeta::FacialLandmark probe_points[5];
+  seeta::FacialLandmark probe_points[5] = { 0 };
   point_detector.PointDetectLandmarks(probe_img_data_gray, probe_faces[0], probe_points);
 
   for (int i = 0; i<5; i++)
@@ -165,8 +168,5 @@ int main(int argc, char* argv[]) {
   // Caculate similarity of two faces
   float sim = face_recognizer.CalcSimilarity(gallery_fea, probe_fea);
   std::cout << sim <<endl;
-
   return 0;
 }
-
-
