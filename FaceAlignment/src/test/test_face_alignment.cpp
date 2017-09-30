@@ -110,7 +110,7 @@ int main(int argc, char** argv)
   {
     cvCircle(img_color, cvPoint(points[i].x, points[i].y), 2, CV_RGB(0, 255, 0), CV_FILLED);
   }
-  cvSaveImage("test_face_detection.jpg", img_color);
+  cvSaveImage("test_face_alignment.jpg", img_color);
 
   // Release memory
   cvReleaseImage(&img_color);
