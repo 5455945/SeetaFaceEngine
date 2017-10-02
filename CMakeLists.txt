@@ -5,7 +5,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(FaceDetection)
 add_subdirectory(FaceAlignment)
 add_subdirectory(FaceIdentification)
-
+option(SFMFCTEST "Building SFMFCTest Project" ON)
+if (MSVC AND SFMFCTEST)
+  add_subdirectory(SFMFCTest)
+endif()
 
 message(STATUS "copying ${CMAKE_SOURCE_DIR}/FaceDetection/data DESTINATION ${CMAKE_BINARY_DIR}")
 file(COPY "${CMAKE_SOURCE_DIR}/FaceDetection/data" DESTINATION "${CMAKE_BINARY_DIR}")
@@ -54,3 +57,8 @@ if(MSVC AND NOT EXISTS "${CMAKE_BINARY_DIR}/FaceIdentification/src/test/test_fac
 		INPUT "${CMAKE_SOURCE_DIR}/cmake/test_face_verification.vcxproj.user.in")
 endif()
 
+if(MSVC AND SFMFCTEST AND NOT EXISTS "${CMAKE_BINARY_DIR}/SFMFCTest/SFMFCTest.vcxproj.user")
+	file(GENERATE
+		OUTPUT "${CMAKE_BINARY_DIR}/SFMFCTest/SFMFCTest.vcxproj.user"
+		INPUT "${CMAKE_SOURCE_DIR}/cmake/SFMFCTest.vcxproj.user.in")
+endif()
