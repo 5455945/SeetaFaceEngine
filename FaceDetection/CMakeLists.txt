@@ -53,6 +53,12 @@ set(src_files
 add_library(seeta_facedet_lib SHARED ${src_files})
 set(facedet_required_libs seeta_facedet_lib)
 
+install(TARGETS seeta_facedet_lib
+        RUNTIME DESTINATION bin/\${CMAKE_INSTALL_CONFIG_NAME}
+        LIBRARY DESTINATION lib/\${CMAKE_INSTALL_CONFIG_NAME}
+        ARCHIVE DESTINATION lib/static/\${CMAKE_INSTALL_CONFIG_NAME})
+install(DIRECTORY include DESTINATION include/FaceDetection)
+
 # Build examples
 if (BUILD_EXAMPLES)
     message(STATUS "Build with examples.")
@@ -65,5 +71,13 @@ if (BUILD_EXAMPLES)
         
         add_executable(test_face_detection src/test/test_face_detection.cpp)
         target_link_libraries(test_face_detection ${facedet_required_libs})
+
+		install(TARGETS test_face_detection
+			RUNTIME DESTINATION bin/\${CMAKE_INSTALL_CONFIG_NAME}
+			LIBRARY DESTINATION lib/\${CMAKE_INSTALL_CONFIG_NAME}
+			ARCHIVE DESTINATION lib/static/\${CMAKE_INSTALL_CONFIG_NAME})
+		install(FILES ${PROJECT_SOURCE_DIR}/src/test/test_face_detection.cpp DESTINATION sample)
+	    install(DIRECTORY data DESTINATION .)
+	    install(DIRECTORY model DESTINATION .)
     endif()
 endif()

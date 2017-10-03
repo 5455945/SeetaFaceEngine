@@ -18,5 +18,23 @@ foreach (f ${SRC_LIST})
   add_executable(${BIN} ${f})
   link_directories(${OpenCV_LIB_PATH})
   target_link_libraries(${BIN} viplnet seeta_fa_lib seeta_facedet_lib ${OpenCV_LIBS})
+
+  install(TARGETS ${BIN}
+	RUNTIME DESTINATION bin/\${CMAKE_INSTALL_CONFIG_NAME}
+	LIBRARY DESTINATION lib/\${CMAKE_INSTALL_CONFIG_NAME}
+	ARCHIVE DESTINATION lib/static/\${CMAKE_INSTALL_CONFIG_NAME})
+
+  install(FILES ${PROJECT_SOURCE_DIR}/src/test/${f} DESTINATION sample)
 endforeach ()
 
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION .)
+
+if (NOT EXISTS ${CMAKE_INSTALL_PREFIX}/model/seeta_fr_v1.0.bin)
+	if (WIN32)
+		install(CODE "execute_process(COMMAND \"${CMAKE_SOURCE_DIR}/tools/rar\" x -ep -y seeta_fr_v1.0.part1.rar seeta_fr_v1.0.part2.rar seeta_fr_v1.0.bin
+				WORKING_DIRECTORY \"${CMAKE_SOURCE_DIR}/FaceIdentification/model\")")
+		install(CODE "file(RENAME \"${CMAKE_SOURCE_DIR}/FaceIdentification/model/seeta_fr_v1.0.bin\" \"${CMAKE_INSTALL_PREFIX}/model/seeta_fr_v1.0.bin\")")
+	else()
+		install(DIRECTORY ${PROJECT_SOURCE_DIR}/model DESTINATION .)
+	endif()
+endif()
