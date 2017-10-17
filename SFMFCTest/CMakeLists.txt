@@ -42,7 +42,7 @@ else()
 		if (WIN32)
 			install(CODE "execute_process(COMMAND \"${CMAKE_SOURCE_DIR}/tools/rar\" x -ep -y seeta_fr_v1.0.part1.rar seeta_fr_v1.0.part2.rar seeta_fr_v1.0.bin
 					WORKING_DIRECTORY \"${CMAKE_SOURCE_DIR}/FaceIdentification/model\")")
-			install(CODE "file(RENAME \"${CMAKE_SOURCE_DIR}/FaceIdentification/model/seeta_fr_v1.0.bin\" \"${CMAKE_INSTALL_PREFIX}/model/seeta_fr_v1.0.bin\")")
+			install(CODE "file(COPY \"${CMAKE_SOURCE_DIR}/FaceIdentification/model/seeta_fr_v1.0.bin\" DESTINATION \"${CMAKE_INSTALL_PREFIX}/model/seeta_fr_v1.0.bin\")")
 		else()
 			install(DIRECTORY ${PROJECT_SOURCE_DIR}/model DESTINATION .)
 		endif()
