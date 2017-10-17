@@ -7,8 +7,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(FaceDetection)
 add_subdirectory(FaceAlignment)
 add_subdirectory(FaceIdentification)
-option(SFMFCTEST "Building SFMFCTest Project" OFF)
-if (MSVC AND SFMFCTEST)
+option(BUILD_SFMFCTEST "Building SFMFCTest Project" OFF)
+if (MSVC AND BUILD_SFMFCTEST)
   add_subdirectory(SFMFCTest)
 endif()
 
@@ -66,14 +66,14 @@ if (BUILD_EXAMPLES)
 	endif()
 endif()
 
-if(MSVC AND SFMFCTEST AND NOT EXISTS "${CMAKE_BINARY_DIR}/SFMFCTest/SFMFCTest.vcxproj.user")
+if(MSVC AND BUILD_SFMFCTEST AND NOT EXISTS "${CMAKE_BINARY_DIR}/SFMFCTest/SFMFCTest.vcxproj.user")
 	file(GENERATE
 		OUTPUT "${CMAKE_BINARY_DIR}/SFMFCTest/SFMFCTest.vcxproj.user"
 		INPUT "${CMAKE_SOURCE_DIR}/cmake/SFMFCTest.vcxproj.user.in")
 endif()
 
-option(PYSEETAFACEENGINE "Install Python SeetaFaceEngine" OFF)
-if(PYSEETAFACEENGINE)
+option(BUILD_SEETAFACEENGINE "Install Python SeetaFaceEngine" OFF)
+if(BUILD_SEETAFACEENGINE)
 	if (NOT EXISTS ${CMAKE_SOURCE_DIR}/FaceIdentification/model/seeta_fr_v1.0.bin)
 		if (WIN32)
 			install(CODE "execute_process(COMMAND \"${CMAKE_SOURCE_DIR}/tools/rar\" x -ep -y seeta_fr_v1.0.part1.rar seeta_fr_v1.0.part2.rar seeta_fr_v1.0.bin
